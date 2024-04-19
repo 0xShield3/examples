@@ -1,0 +1,16 @@
+{
+  "name": "react-register",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": ">=5.0.0",
+    "react": ">=18",
+    "wagmi": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": ">=18"
+  }
+}
