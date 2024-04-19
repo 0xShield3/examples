@@ -3,6 +3,7 @@
 This repository contains example applications demonstrating how to integrate and use the Shield3 React SDK in various scenarios. The examples are designed to showcase the SDK's capabilities, including policy simulation and transaction analysis within React applications. Each example is self-contained and provides a practical guide to implementing specific features of the Shield3 React SDK.
 
 ## Examples Included
+** Any examples starting with WIP are not considered complete or production ready **
 
 - **Dynamic Integration**: Example applications that integrates the Shield3 React SDK with Dynamic's SDK. This demonstrates how to use Shield3 for transaction policy simulation in an application that also utilizes Dynamic for enhanced blockchain interactions.
 - **Privy Integration**: Example applications that integrate the Shield3 React SDK with Privy's SDK. This demonstrates how to use Shield3 for transaction policy simulation in an application that also utilizes Privy embedded wallets.
