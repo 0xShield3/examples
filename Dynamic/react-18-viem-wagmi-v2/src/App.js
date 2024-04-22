@@ -20,10 +20,10 @@ const queryClient = new QueryClient()
 
 export default function App() {
     return (
-        <Shield3Provider apiKey="ylJR7KB81p6BdOykf56203KQiNAf3FNrXHCxs9r4" chainId={mainnet.id}>
+        <Shield3Provider apiKey={process.env.REACT_APP_SHIELD3_API_KEY} chainId={mainnet.id}>
             <DynamicContextProvider
                 settings={{
-                    environmentId: '2762a57b-faa4-41ce-9f16-abff9300e2c9',
+                    environmentId: process.env.REACT_APP_DYNAMIC_PROJECT_ID,
                     walletConnectors: [EthereumWalletConnectors],
                 }}
             >

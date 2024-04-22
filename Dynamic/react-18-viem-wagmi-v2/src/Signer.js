@@ -33,6 +33,7 @@ const Signer = () => {
             }
 
         console.log({ transaction, account })
+        console.log(shield3Client)
         const results = await shield3Client.getPolicyResults(transaction, account)
         setResult(results.decision)
     }
