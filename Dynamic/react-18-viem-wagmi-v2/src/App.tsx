@@ -7,6 +7,7 @@ import { http } from 'viem'
 import { mainnet } from 'viem/chains'
 import { Shield3Provider } from '@shield3/react-sdk'
 import Signer from './Signer'
+import React from 'react'
 
 const config = createConfig({
     chains: [mainnet],
@@ -20,10 +21,10 @@ const queryClient = new QueryClient()
 
 export default function App() {
     return (
-        <Shield3Provider apiKey="ylJR7KB81p6BdOykf56203KQiNAf3FNrXHCxs9r4" chainId={mainnet.id}>
+        <Shield3Provider apiKey={process.env.REACT_APP_SHIELD3_API_KEY || 'undefined-shield3-api-key'} chainId={mainnet.id}>
             <DynamicContextProvider
                 settings={{
-                    environmentId: '2762a57b-faa4-41ce-9f16-abff9300e2c9',
+                    environmentId: process.env.REACT_APP_DYNAMIC_PROJECT_ID || 'undefined-dynamic-project-id',
                     walletConnectors: [EthereumWalletConnectors],
                 }}
             >

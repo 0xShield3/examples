@@ -1,5 +1,6 @@
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { useAccount } from "wagmi";
+import React from 'react'
 
 const Wagmi = () => {
   const { authToken, isAuthenticated } = useDynamicContext();
