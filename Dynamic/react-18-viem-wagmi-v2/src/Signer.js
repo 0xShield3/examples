@@ -1,17 +1,17 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import {useShield3Context} from "@shield3/react-sdk"
-import type { RoutingDecision } from '@shield3/react-sdk/dist/shield3/simulate'
+// import type { RoutingDecision } from '@shield3/react-sdk/dist/shield3/simulate'
 import React, { useState } from 'react'
 
-interface Transaction {
-    to: string;
-    data?: string;
-    nonce: number;
-    value: number;
-    chainId: number;
-    gasLimit: number;
-    [key: string]: unknown; // Allows any number of other unknown keys
-}
+// interface Transaction {
+//     to: string;
+//     data?: string;
+//     nonce: number;
+//     value: number;
+//     chainId: number;
+//     gasLimit: number;
+//     [key: string]: unknown; // Allows any number of other unknown keys
+// }
 
 
 const exampleFlaggedTx = {
@@ -27,13 +27,13 @@ const Signer = () => {
     const { primaryWallet } = useDynamicContext()
     const { shield3Client } = useShield3Context()
 
-    const [result, setResult] = useState<RoutingDecision | null>(null)
+    const [result, setResult] = useState(null)
 
-    const sign = async (isBlocked: boolean) => {
+    const sign = async (isBlocked) => {
         const connectedAccounts = await primaryWallet?.connector.getConnectedAccounts() ?? []
         const account = connectedAccounts[0]
 
-        let transaction : Transaction
+        let transaction
         if (isBlocked) transaction = exampleFlaggedTx
         else
             transaction = {
@@ -45,7 +45,7 @@ const Signer = () => {
             }
 
         console.log({ transaction, account })
-        const results = await shield3Client.getPolicyResults(transaction, account as `0x${string}`)
+        const results = await shield3Client.getPolicyResults(transaction, account)
         setResult(results?.decision ?? null)
     }
 
