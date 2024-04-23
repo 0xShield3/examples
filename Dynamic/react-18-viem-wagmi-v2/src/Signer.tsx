@@ -1,7 +1,7 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import {useShield3Context} from "@shield3/react-sdk"
 import type { RoutingDecision } from '@shield3/react-sdk/dist/shield3/simulate'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 interface Transaction {
     to: string;
