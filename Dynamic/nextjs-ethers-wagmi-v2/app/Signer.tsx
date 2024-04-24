@@ -52,8 +52,8 @@ const Signer = () => {
 
     return (
         <div className='border border-white rounded-lg p-20 bg-black flex flex-col m-2'>
-            <h1 className='m-2'>Get Policy Results</h1>
-            <h2 className='m-2'>Result: {result}</h2>
+            <h1 className='m-2 text-white'>Get Policy Results</h1>
+            <h2 className='m-2 text-white'>Result: {result}</h2>
             <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(true)}>Try flagged transaction</button>
             <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(false)}>Try allowed transaction</button>
         </div>
