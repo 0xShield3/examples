@@ -29,6 +29,25 @@ const Signer = () => {
     const { shield3Client } = useShield3Context()
 
     const [result, setResult] = useState(null)
+    const [hovered1, setHovered1] = useState(false);
+    const [hovered2, setHovered2] = useState(false);
+
+    const buttonStyle1 = {
+        backgroundColor: hovered1 ? 'blue' : 'white',
+        color: hovered1 ? 'white' : 'black',
+        padding: '1.25rem',
+        margin: '0.5rem',
+        borderRadius: '0.5rem',
+        transition: 'background-color 700ms ease'
+    };
+    const buttonStyle2 = {
+        backgroundColor: hovered2 ? 'blue' : 'white',
+        color: hovered2 ? 'white' : 'black',
+        padding: '1.25rem',
+        margin: '0.5rem',
+        borderRadius: '0.5rem',
+        transition: 'background-color 700ms ease'
+    };
 
     const sign = async (isBlocked) => {
         setResult("Getting Results...")
@@ -51,11 +70,32 @@ const Signer = () => {
     }
 
     return (
-        <div className='border border-white rounded-lg p-20 bg-black flex flex-col m-2'>
-            <h1 className='m-2 text-white'>Get Policy Results</h1>
-            <h2 className='m-2 text-white'>Result: {result}</h2>
-            <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(true)}>Try flagged transaction</button>
-            <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(false)}>Try allowed transaction</button>
+        <div style={{
+            border: '1px solid white',
+            borderRadius: '0.5rem',
+            padding: '5rem',
+            backgroundColor: 'black',
+            display: 'flex',
+            flexDirection: 'column',
+            margin: '0.5rem'
+        }}>
+        <h1 style={{ margin: '0.5rem', color: 'white' }}>Get Policy Results</h1>
+        <h2 style={{ margin: '0.5rem', color: 'white' }}>Result: {result}</h2>
+        <button
+                style={buttonStyle1}
+                onMouseEnter={() => setHovered1(true)}
+                onMouseLeave={() => setHovered1(false)}
+                type="button"
+                onClick={() => sign(true)}
+            >Try flagged transaction</button>
+
+        <button
+            style={buttonStyle2}
+            onMouseEnter={() => setHovered2(true)}
+            onMouseLeave={() => setHovered2(false)}
+            type="button"
+            onClick={() => sign(false)}
+        >Try allowed transaction</button>
         </div>
     )
 }
