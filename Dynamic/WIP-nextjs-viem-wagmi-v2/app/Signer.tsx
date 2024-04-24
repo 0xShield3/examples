@@ -1,18 +1,18 @@
 "use client"
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import {useShield3Context} from "@shield3/react-sdk"
-// import type { RoutingDecision } from '@shield3/react-sdk/dist/shield3/simulate'
+import type { RoutingDecision } from '@shield3/react-sdk/dist/shield3/simulate'
 import React, { useState } from 'react'
 
-// interface Transaction {
-//     to: string;
-//     data?: string;
-//     nonce: number;
-//     value: number;
-//     chainId: number;
-//     gasLimit: number;
-//     [key: string]: unknown; // Allows any number of other unknown keys
-// }
+interface Transaction {
+    to: string;
+    data?: string;
+    nonce: number;
+    value: number;
+    chainId: number;
+    gasLimit: number;
+    [key: string]: unknown; // Allows any number of other unknown keys
+}
 
 
 const exampleFlaggedTx = {
@@ -28,13 +28,13 @@ const Signer = () => {
     const { primaryWallet } = useDynamicContext()
     const { shield3Client } = useShield3Context()
 
-    const [result, setResult] = useState(null)
+    const [result, setResult] = useState<RoutingDecision | null>(null)
 
-    const sign = async (isBlocked) => {
-        setResult("Getting Results...")
+    const sign = async (isBlocked:boolean) => {
         const connectedAccounts = await primaryWallet?.connector.getConnectedAccounts() ?? []
         const account = connectedAccounts[0]
-        let transaction
+
+        let transaction:Transaction
         if (isBlocked) transaction = exampleFlaggedTx
         else
             transaction = {
@@ -46,16 +46,16 @@ const Signer = () => {
             }
 
         console.log({ transaction, account })
-        const results = await shield3Client.getPolicyResults(transaction, account)
+        const results = await shield3Client.getPolicyResults(transaction, account as `0x${string}`)
         setResult(results?.decision ?? null)
     }
 
     return (
-        <div className='border border-white rounded-lg p-20 bg-black flex flex-col m-2'>
-            <h1 className='m-2'>Get Policy Results</h1>
-            <h2 className='m-2'>Result: {result}</h2>
-            <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(true)}>Try flagged transaction</button>
-            <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(false)}>Try allowed transaction</button>
+        <div>
+            <h1>Get Policy Results</h1>
+            <h2>Result: {result}</h2>
+            <button className="bg-white text-black" type="button" onClick={() => sign(true)}>Try flagged transaction</button>
+            <button className="bg-white text-black" type="button" onClick={() => sign(false)}>Try allowed transaction</button>
         </div>
     )
 }

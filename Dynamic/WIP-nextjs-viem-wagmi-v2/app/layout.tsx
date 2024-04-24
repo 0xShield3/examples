@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <DynamicContextProvider
         settings={{
-          environmentId: "2762a57b-faa4-41ce-9f16-abff9300e2c9",
+          environmentId: process.env.NEXT_DYNAMIC_PROJECT_ID as string,
           walletConnectors: [EthereumWalletConnectors],
         }}
       >

@@ -28,12 +28,12 @@ const Signer = () => {
     const { primaryWallet } = useDynamicContext()
     const { shield3Client } = useShield3Context()
 
-    const [result, setResult] = useState<RoutingDecision | null>(null)
+    const [result, setResult] = useState<RoutingDecision| string | null>(null)
 
     const sign = async (isBlocked:boolean) => {
+        setResult("Getting Results...")
         const connectedAccounts = await primaryWallet?.connector.getConnectedAccounts() ?? []
         const account = connectedAccounts[0]
-
         let transaction:Transaction
         if (isBlocked) transaction = exampleFlaggedTx
         else
@@ -51,11 +51,11 @@ const Signer = () => {
     }
 
     return (
-        <div>
-            <h1>Get Policy Results</h1>
-            <h2>Result: {result}</h2>
-            <button type="button" onClick={() => sign(true)}>Try flagged transaction</button>
-            <button type="button" onClick={() => sign(false)}>Try allowed transaction</button>
+        <div className='border border-white rounded-lg p-20 bg-black flex flex-col m-2'>
+            <h1 className='m-2'>Get Policy Results</h1>
+            <h2 className='m-2'>Result: {result}</h2>
+            <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(true)}>Try flagged transaction</button>
+            <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(false)}>Try allowed transaction</button>
         </div>
     )
 }
