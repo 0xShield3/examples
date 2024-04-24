@@ -1,5 +1,8 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Shield3 Integration Notes
+- When implementing `<Shield3ContextProvider>`, the page will need to use client-side rendering. Be sure to add "use client" to the top of the page that uses the wrapper, and please be aware that some pages (like pages exporting metadata) do not support client side rendering.
+
 ## Getting Started
 
 First, run the development server:
