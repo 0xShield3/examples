@@ -42,8 +42,8 @@ const Signer = () => {
         <div>
             <h1>Get Policy Results</h1>
             <h2>Result: {result}</h2>
-            <button onClick={() => sign(true)}>Try flagged transaction</button>
-            <button onClick={() => sign(false)}>Try allowed transaction</button>
+            <button type='button' onClick={() => sign(true)}>Try flagged transaction</button>
+            <button type='button' onClick={() => sign(false)}>Try allowed transaction</button>
         </div>
     )
 }
