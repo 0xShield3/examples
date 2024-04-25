@@ -31,6 +31,7 @@ const Signer = () => {
     const [result, setResult] = useState(null)
     const [hovered1, setHovered1] = useState(false);
     const [hovered2, setHovered2] = useState(false);
+    const [response, setResponse] = useState("")
 
     const buttonStyle1 = {
         backgroundColor: hovered1 ? 'blue' : 'white',
@@ -38,7 +39,8 @@ const Signer = () => {
         padding: '1.25rem',
         margin: '0.5rem',
         borderRadius: '0.5rem',
-        transition: 'background-color 700ms ease'
+        transition: 'background-color 700ms ease',
+        width:'250px'
     };
     const buttonStyle2 = {
         backgroundColor: hovered2 ? 'blue' : 'white',
@@ -46,7 +48,8 @@ const Signer = () => {
         padding: '1.25rem',
         margin: '0.5rem',
         borderRadius: '0.5rem',
-        transition: 'background-color 700ms ease'
+        transition: 'background-color 700ms ease',
+        width:'250px'
     };
 
     const sign = async (isBlocked) => {
@@ -67,6 +70,7 @@ const Signer = () => {
         console.log({ transaction, account })
         const results = await shield3Client.getPolicyResults(transaction, account)
         setResult(results?.decision ?? null)
+        setResponse(JSON.stringify(results,null,2))
     }
 
     return (
@@ -75,7 +79,7 @@ const Signer = () => {
             borderRadius: '0.5rem',
             padding: '5rem',
             backgroundColor: 'black',
-            display: 'flex',
+            display: 'inline-block',
             flexDirection: 'column',
             margin: '0.5rem'
         }}>
@@ -96,6 +100,18 @@ const Signer = () => {
             type="button"
             onClick={() => sign(false)}
         >Try allowed transaction</button>
+        <div style={{ backgroundColor: '#282c34', padding: '20px', borderRadius: '8px', color: 'lightgreen' , width:'500px',height: '300px',overflow: 'auto'}}>
+            <pre style={{
+                whiteSpace: 'pre-wrap',       // Maintains whitespace
+                wordWrap: 'break-word',       // Prevents long text from overflowing
+                overflow: 'auto',
+                borderRadius: '8px'              // Ensures scrollability within the pre tag
+                }}>
+                    <code>
+                        {response}
+                    </code>
+                </pre>
+            </div>
         </div>
     )
 }

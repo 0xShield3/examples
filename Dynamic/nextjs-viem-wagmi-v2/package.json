@@ -12,7 +12,7 @@
     "@dynamic-labs/ethereum": "*",
     "@dynamic-labs/sdk-react-core": "*",
     "@dynamic-labs/wagmi-connector": "*",
-    "@shield3/react-sdk": "^0.0.83",
+    "@shield3/react-sdk": "^0.0.85",
     "@types/node": "20.5.4",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.7",

@@ -19,12 +19,12 @@ const config = createConfig({
 
 const queryClient = new QueryClient()
 
-export default function App() {
+const App = () => {
     return (
         <Shield3Provider apiKey={process.env.REACT_APP_SHIELD3_API_KEY || 'undefined-shield3-api-key'} chainId={mainnet.id}>
             <DynamicContextProvider
                 settings={{
-                    environmentId: process.env.REACT_APP_DYNAMIC_PROJECT_ID || 'undefined-dynamic-project-id',
+                    environmentId: process.env.REACT_APP_DYNAMIC_PROJECT_ID,
                     walletConnectors: [EthereumWalletConnectors],
                 }}
             >
@@ -38,5 +38,7 @@ export default function App() {
                 </WagmiProvider>
             </DynamicContextProvider>
         </Shield3Provider>
-    )
-}
+    );
+};
+
+export default App;

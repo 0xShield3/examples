@@ -11,7 +11,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "wagmi": "*",
-    "@shield3/react-sdk":"^0.0.83"
+    "@shield3/react-sdk":"^0.0.85"
   },
   "overrides": {
     "typescript": "4.9.5"

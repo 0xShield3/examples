@@ -4,6 +4,7 @@ import {useShield3Context} from "@shield3/react-sdk"
 import type { RoutingDecision } from '@shield3/react-sdk/dist/shield3/simulate'
 import React, { useState } from 'react'
 
+
 interface Transaction {
     to: string;
     data?: string;
@@ -29,6 +30,7 @@ const Signer = () => {
     const { shield3Client } = useShield3Context()
 
     const [result, setResult] = useState<RoutingDecision| string | null>(null)
+    const [response, setResponse] = useState("")
 
     const sign = async (isBlocked:boolean) => {
         setResult("Getting Results...")
@@ -48,6 +50,7 @@ const Signer = () => {
         console.log({ transaction, account })
         const results = await shield3Client.getPolicyResults(transaction, account as `0x${string}`)
         setResult(results?.decision ?? null)
+        setResponse(JSON.stringify(results,null,2))
     }
 
     return (
@@ -56,6 +59,18 @@ const Signer = () => {
             <h2 className='m-2 text-white'>Result: {result}</h2>
             <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(true)}>Try flagged transaction</button>
             <button className="bg-white text-black p-5 m-2 rounded-lg transition duration-700 hover:bg-purple-500" type="button" onClick={() => sign(false)}>Try allowed transaction</button>
+            <div style={{ backgroundColor: '#282c34', padding: '20px', borderRadius: '8px', color: 'lightgreen' , width:'500px',height: '300px',overflow: 'auto'}}>
+            <pre style={{
+                whiteSpace: 'pre-wrap',       // Maintains whitespace
+                wordWrap: 'break-word',       // Prevents long text from overflowing
+                overflow: 'auto',
+                borderRadius: '8px'              // Ensures scrollability within the pre tag
+            }}>
+                <code>
+                    {response}
+                </code>
+            </pre>
+        </div>
         </div>
     )
 }
