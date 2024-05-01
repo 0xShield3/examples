@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import {
   DynamicContextProvider,
   EthereumWalletConnectors,
-  DynamicWagmiConnector,
   EthersExtension,
 } from "@/lib/dynamic";
 

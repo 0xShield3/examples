@@ -6,11 +6,10 @@
     "@dynamic-labs/ethereum": "*",
     "@dynamic-labs/ethers-v5": "*",
     "@dynamic-labs/sdk-react-core": "*",
-    "@dynamic-labs/wagmi-connector": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "wagmi": "*",
+    "wagmi": "^2.7.1",
     "@shield3/react-sdk":"^0.0.85"
   },
   "overrides": {

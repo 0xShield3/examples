@@ -69,6 +69,7 @@ const Signer = () => {
 
         console.log({ transaction, account })
         const results = await shield3Client.getPolicyResults(transaction, account)
+        
         setResult(results?.decision ?? null)
         setResponse(JSON.stringify(results,null,2))
     }
