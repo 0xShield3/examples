@@ -105,15 +105,16 @@ const Signer = () => {
             <button className="button px-4 w-full h-10" type="button" onClick={() => sign(true)}>Try flagged transaction</button>
             <button className="button px-4 w-full h-10" type="button" onClick={() => sign(false)}>Try allowed transaction</button>
             </div>
-            {result && (<div className='transform-all duration-1000 flex flex-col w-full border border-privy-3 h-auto rounded-xl items-center text-center'>
-            <h2 className='mt-2 text-privy-color-foreground-3 text-xs'>Policy Result</h2>
+            {result && (
+            <div className='p-2 transform-all duration-1000 flex flex-col w-full border border-privy-3 h-auto rounded-xl items-center text-center'>
+            <h2 className='text-privy-color-foreground-3 text-xs'>Policy Result</h2>
             <h2 className='w-full text-privy-color-foreground-1 text-2xl'>{result}</h2>
             {receiptUrl && (
-                <a className="m-2" href={receiptUrl} target="_blank" rel="noopener noreferrer">View Transaction</a>
+                <a className="text-xs" href={receiptUrl} target="_blank" rel="noopener noreferrer">View Transaction</a>
             )}
             </div>)}
 
-            <div className="p-2 transform-all duration-1000 bg-privy-color-background-2 h-32 hover:h-96 font-mono text-xs text-privy-color-foreground-2 no-scrollbar overflow-auto rounded-xl">
+            {result && (<div className="p-2 transform-all duration-1000 bg-privy-color-background-2 h-32 hover:h-96 font-mono text-xs text-privy-color-foreground-2 no-scrollbar overflow-auto rounded-xl">
             <pre style={{
                 whiteSpace: 'pre-wrap',     
                 wordWrap: 'break-word',     
@@ -124,7 +125,7 @@ const Signer = () => {
                         {response}
                     </code>
                 </pre>
-            </div>
+            </div>)}
         </div>
     )
 }
