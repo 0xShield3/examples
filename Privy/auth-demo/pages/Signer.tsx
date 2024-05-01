@@ -7,7 +7,7 @@ import type { WalletWithMetadata } from '@privy-io/react-auth';
 import { useRouter } from "next/router";
 import { type WalletClient, createWalletClient, custom } from 'viem'
 import { sepolia } from 'viem/chains'
-
+import type { PrepareTransactionRequestParameters, SendTransactionParameters } from 'viem';
 
 
 interface Transaction {
@@ -37,15 +37,22 @@ const Signer = () => {
     let client:null|WalletClient=null
     const router = useRouter();
     useEffect(() => {
-        if (!ready || !authenticated) router.push("/");
-      }, [ready, authenticated, router.push]);
+        if (!ready || !authenticated) {
+            router.push("/");
+        }
+    }, [ready, authenticated, router]);
     const {wallets: connectedWallets} = useWallets();
     const linkedAccounts = user?.linkedAccounts || [];
     const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
   
     const linkedAndConnectedWallets = wallets
-      .filter((w) => connectedWallets.some((cw) => cw.address === w.address))
-      .sort((a, b) => b.firstVerifiedAt.toLocaleString().localeCompare(a.firstVerifiedAt.toLocaleString()));
+    .filter((w) => connectedWallets.some((cw) => cw.address === w.address))
+    .sort((a, b) => {
+      // Handle potential null values in firstVerifiedAt
+      const dateA = a.firstVerifiedAt ? a.firstVerifiedAt.toLocaleString() : "";
+      const dateB = b.firstVerifiedAt ? b.firstVerifiedAt.toLocaleString() : "";
+      return dateB.localeCompare(dateA);
+    });
 
     const account=linkedAndConnectedWallets[0]?.address as `0x${string}`
 
@@ -90,9 +97,10 @@ const Signer = () => {
                             chain: sepolia,
                             transport: custom(window.ethereum)
                         })
-                    const prepped_tx=await client.prepareTransactionRequest(transaction)
+                    
+                    const prepped_tx=await client.prepareTransactionRequest(transaction as unknown as PrepareTransactionRequestParameters)
                     console.log(prepped_tx)
-                    receipt=await client.sendTransaction(prepped_tx)
+                    receipt=await client.sendTransaction(prepped_tx as SendTransactionParameters)
                 }
                 setReceiptUrl(`https://sepolia.etherscan.io/tx/${receipt}`)
             }    
