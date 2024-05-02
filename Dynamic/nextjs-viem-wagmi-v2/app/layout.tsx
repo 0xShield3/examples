@@ -5,7 +5,6 @@ import { Inter } from "next/font/google";
 import {
   DynamicContextProvider,
   EthereumWalletConnectors,
-  DynamicWagmiConnector,
 } from "../lib/dynamic";
 
 import { Providers } from "./providers";
@@ -26,14 +25,12 @@ export default function RootLayout({
     <html lang="en">
       <DynamicContextProvider
         settings={{
-          environmentId: process.env.DYNAMIC_PROJECT_ID as string,
+          environmentId: process.env.NEXT_PUBLIC_DYNAMIC_PROJECT_ID as string,
           walletConnectors: [EthereumWalletConnectors],
         }}
       >
         <Providers>
-          <DynamicWagmiConnector>
             <body className={inter.className}>{children}</body>
-          </DynamicWagmiConnector>
         </Providers>
       </DynamicContextProvider>
     </html>

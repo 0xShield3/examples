@@ -12,7 +12,6 @@
     "@dynamic-labs/ethereum": "*",
     "@dynamic-labs/ethers-v5": "*",
     "@dynamic-labs/sdk-react-core": "*",
-    "@dynamic-labs/wagmi-connector": "*",
     "@shield3/react-sdk": "^0.0.86",
     "@types/node": "20.8.7",
     "@types/react": "18.2.21",
