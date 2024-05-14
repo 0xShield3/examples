@@ -25,7 +25,7 @@ const exampleFlaggedTx = {
     to: '0x6aabdd49a7f97f5242fd0fd6938987e039827666',
     data: '0x',
     value: 0,
-    chainId: 421614,
+    chainId: 11155111,
     gasLimit: 100000,
 }
 
