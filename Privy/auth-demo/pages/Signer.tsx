@@ -23,9 +23,9 @@ interface Transaction {
 
 const exampleFlaggedTx = {
     to: '0x6aabdd49a7f97f5242fd0fd6938987e039827666',
-    data: '0xa9059cbb0000000000000000000000006aabdd49a7f97f5242fd0fd6938987e03982766600000000000000000000000000000000000000000000000001e32b4789740000',
+    data: '0x',
     value: 0,
-    chainId: 1,
+    chainId: 421614,
     gasLimit: 100000,
 }
 

@@ -44,9 +44,9 @@ function MyApp({Component, pageProps, router}: AppProps) {
   return (
     <>
       <Head
-        url="https://demo.privy.io"
+        url="https://shield3-privy-demo.netlify.app/"
         image="https://privy.io/images/blobby-codey-og.png"
-        title="Privy Demo | Onboard all your users to web3"
+        title="Shield3 with Privy Demo | Onboard all your users to web3"
         description="A simple library to onboard all your users to your web3 product, newcomers and experts alike."
       />
       <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -2,8 +2,8 @@
 /* eslint-disable react/jsx-no-target-blank */
 
 import axios from 'axios';
-import {useRouter} from 'next/router';
-import React, {useState, useEffect, useContext} from 'react';
+import { useRouter } from 'next/router';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   PasskeyWithMetadata,
   useMfaEnrollment,
@@ -14,10 +14,10 @@ import {
 import Head from 'next/head';
 import Loading from '../components/loading';
 import AuthLinker from '../components/auth-linker';
-import {clearDatadogUser} from '../lib/datadog';
-import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
-import {formatWallet} from '../lib/utils';
-import {Header} from '../components/header';
+import { clearDatadogUser } from '../lib/datadog';
+import { DismissableInfo, DismissableError, DismissableSuccess } from '../components/toast';
+import { formatWallet } from '../lib/utils';
+import { Header } from '../components/header';
 import CanvasContainer from '../components/canvas-container';
 import CanvasSidebar from '../components/canvas-sidebar';
 import CanvasCard from '../components/canvas-card';
@@ -54,8 +54,9 @@ import TikTokIcon from '../components/icons/social/tiktok';
 import TwitterXIcon from '../components/icons/social/twitter-x';
 import FramesCard from '../components/frames-card';
 import FarcasterIcon from '../components/icons/social/farcaster';
-import {isMobile} from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 import Signer from './Signer';
+import { useShield3Context } from '@shield3/react-sdk';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -64,9 +65,11 @@ export default function DashboardPage() {
   const [signError, setSignError] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [activeWallet, setActiveWallet] = useState<WalletWithMetadata | null>(null);
+  const [activeApiKey, setActiveApiKey] = useState<string | null>(null);
 
-  const {setConfig} = useContext(PrivyConfigContext);
-  const {showMfaEnrollmentModal} = useMfaEnrollment();
+
+  const { setConfig } = useContext(PrivyConfigContext);
+  const { showMfaEnrollmentModal } = useMfaEnrollment();
 
   // set initial config, first checking for stored config, then falling back to default
   useEffect(() => {
@@ -84,6 +87,9 @@ export default function DashboardPage() {
           defaultIndexConfig.embeddedWallets!.requireUserPasswordOnCreate,
       },
     });
+    if (process.env.NEXT_PUBLIC_SHIELD3_API_KEY) {
+      setActiveApiKey(process.env.NEXT_PUBLIC_SHIELD3_API_KEY);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -123,8 +129,15 @@ export default function DashboardPage() {
     setActiveWallet: sdkSetActiveWallet,
   } = usePrivy();
 
-  const {wallets: connectedWallets} = useWallets();
+  const { wallets: connectedWallets } = useWallets();
   const mfaEnabled = user?.mfaMethods.length ?? 0 > 0;
+
+    const { shield3Client } = useShield3Context()
+    
+    const handleUpdateApiKey = (apiKey: string) => {
+        setActiveApiKey(apiKey)
+        shield3Client.setApiKey(apiKey)
+    }
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -158,6 +171,7 @@ export default function DashboardPage() {
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
+
 
   const emailAddress = user?.email?.address;
   const phoneNumber = user?.phone?.number;
@@ -221,13 +235,13 @@ export default function DashboardPage() {
   return (
     <>
       <Head>
-        <title>Privy Demo</title>
+        <title>Shield3 with Privy Demo</title>
       </Head>
 
       <div className="flex h-full flex-col px-6 pb-6">
         <Header />
         <CanvasContainer className="flex-col-reverse">
-          
+
           <CanvasSidebar className="md:px-6 md:pb-6">
             <CanvasSidebarHeader className="hidden md:flex">
               <CommandLineIcon className="h-5 w-5" strokeWidth={2} />
@@ -277,26 +291,47 @@ export default function DashboardPage() {
             </CanvasCard>
           </CanvasSidebar>
           <Canvas className="gap-x-8">
-          
+
             <CanvasRow>
               {isMobile && <FramesCard />}
-              
+
               <CanvasCard>
                 <CanvasCardHeader>
-                <div className="h-5 w-5 mr-1">
-                <svg width="20" height="20" viewBox="0 0 481 483" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <title>Shield3 Image</title>
-                <path d="M0.0425779 72.0683C-0.00757237 65.185 4.6323 59.1732 11.2609 57.4532L232.672 0V143.391H123.842C117.624 143.391 112.584 148.459 112.584 154.711V192.445C112.584 198.697 117.624 203.766 123.842 203.766H232.672V483C141.277 455.896 85.0503 404.458 50.8349 339.609H131.347C137.565 339.609 142.606 334.541 142.606 328.289V290.555C142.606 284.303 137.565 279.234 131.347 279.234H26.0369C6.18469 215.65 0.567133 144.065 0.0425779 72.0683Z" fill="#F4E065"/>
-                <path d="M480.312 72.0693C480.362 65.186 475.722 59.1732 469.094 57.4532L247.682 0V143.391H356.512C362.73 143.391 367.771 148.459 367.771 154.711V192.445C367.771 198.697 362.73 203.766 356.512 203.766H247.682V279.234H356.512C362.73 279.234 367.771 284.303 367.771 290.555V328.289C367.771 334.541 362.73 339.609 356.512 339.609H247.682V483C446.888 423.925 479.021 249.241 480.312 72.0693Z" fill="#D5AE56"/>
-                </svg>
-                </div>
-                Get Shield3 Policy Results
+                  <div className="h-5 w-5 mr-1">
+                    <svg width="20" height="20" viewBox="0 0 481 483" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <title>Shield3 Image</title>
+                      <path d="M0.0425779 72.0683C-0.00757237 65.185 4.6323 59.1732 11.2609 57.4532L232.672 0V143.391H123.842C117.624 143.391 112.584 148.459 112.584 154.711V192.445C112.584 198.697 117.624 203.766 123.842 203.766H232.672V483C141.277 455.896 85.0503 404.458 50.8349 339.609H131.347C137.565 339.609 142.606 334.541 142.606 328.289V290.555C142.606 284.303 137.565 279.234 131.347 279.234H26.0369C6.18469 215.65 0.567133 144.065 0.0425779 72.0683Z" fill="#F4E065" />
+                      <path d="M480.312 72.0693C480.362 65.186 475.722 59.1732 469.094 57.4532L247.682 0V143.391H356.512C362.73 143.391 367.771 148.459 367.771 154.711V192.445C367.771 198.697 362.73 203.766 356.512 203.766H247.682V279.234H356.512C362.73 279.234 367.771 284.303 367.771 290.555V328.289C367.771 334.541 362.73 339.609 356.512 339.609H247.682V483C446.888 423.925 479.021 249.241 480.312 72.0693Z" fill="#D5AE56" />
+                    </svg>
+                  </div>
+                  Get Shield3 Policy Results
                 </CanvasCardHeader>
                 <div className="flex shrink-0 grow-0 flex-row items-center justify-start gap-x-1 text-privy-color-foreground-3">
-                  {`Address: ${user.wallet ?  formatWallet(user.wallet.address): 'wallet not connected'}`}
-                    </div>
+                  {`Address: ${user.wallet ? formatWallet(user.wallet.address) : 'wallet not connected'}`}
+                </div>
                 <div className="flex flex-col gap-2 pt-4">
-                  <Signer/>
+                  <Signer />
+                </div>
+              </CanvasCard>
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <div className="h-5 w-5 mr-1">
+                    <svg width="20" height="20" viewBox="0 0 481 483" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <title>Shield3 Image</title>
+                      <path d="M0.0425779 72.0683C-0.00757237 65.185 4.6323 59.1732 11.2609 57.4532L232.672 0V143.391H123.842C117.624 143.391 112.584 148.459 112.584 154.711V192.445C112.584 198.697 117.624 203.766 123.842 203.766H232.672V483C141.277 455.896 85.0503 404.458 50.8349 339.609H131.347C137.565 339.609 142.606 334.541 142.606 328.289V290.555C142.606 284.303 137.565 279.234 131.347 279.234H26.0369C6.18469 215.65 0.567133 144.065 0.0425779 72.0683Z" fill="#F4E065" />
+                      <path d="M480.312 72.0693C480.362 65.186 475.722 59.1732 469.094 57.4532L247.682 0V143.391H356.512C362.73 143.391 367.771 148.459 367.771 154.711V192.445C367.771 198.697 362.73 203.766 356.512 203.766H247.682V279.234H356.512C362.73 279.234 367.771 284.303 367.771 290.555V328.289C367.771 334.541 362.73 339.609 356.512 339.609H247.682V483C446.888 423.925 479.021 249.241 480.312 72.0693Z" fill="#D5AE56" />
+                    </svg>
+                  </div>
+                  Set Shield3 API Key
+                </CanvasCardHeader>
+                <div className="flex flex-col gap-2 pt-4">
+                  <input
+                    type="text"
+                    value={activeApiKey || ''}
+                    onChange={(e) => handleUpdateApiKey(e.target.value)}
+                    className="no-scrollbar h-10 w-full resize-none rounded-lg border border-privy-color-foreground-2 p-2 font-mono text-sm text-privy-color-foreground-2"
+                    placeholder="Enter API Key"
+                  />
                 </div>
               </CanvasCard>
               <CanvasCard>
@@ -337,7 +372,7 @@ export default function DashboardPage() {
                   </button>
                 </div>
               </CanvasCard>
-              
+
               <CanvasCard>
                 <CanvasCardHeader>
                   <KeyIcon className="h-5 w-5" strokeWidth={2} />
@@ -432,7 +467,7 @@ export default function DashboardPage() {
                   <div className="flex flex-col gap-2 pt-4">
                     {!hasSetPassword && (
                       <button
-                      type='button'
+                        type='button'
                         className="button h-10 gap-x-1 px-4 text-sm"
                         disabled={!(ready && authenticated)}
                         onClick={setWalletPassword}
